@@ -66,10 +66,11 @@ func (s *Server) handleWatermark() http.HandlerFunc {
         }
         defer result.Close()
         object := s3.PutObjectInput{
-            Bucket: aws.String(s.bucket),
-            Key:    aws.String(wmreq.Path + wmreq.Filename),
-            Body:   result,
-            ACL:    aws.String("public-read"),
+            Bucket:         aws.String(s.bucket),
+            Key:            aws.String(wmreq.Path + wmreq.Filename),
+            Body:           result,
+            ACL:            aws.String("public-read"),
+            ContentType:    aws.String("application/pdf"),
         }
         if _, err := s.s3.PutObject(&object); err != nil {
             respondErr(w, r, http.StatusInternalServerError, err)
